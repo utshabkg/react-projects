@@ -1,7 +1,8 @@
 .App {
   text-align: center;
-  color: white;
-  background-color: gray;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .h1 {
