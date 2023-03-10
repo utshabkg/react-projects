@@ -12,6 +12,11 @@ const Form = () => {
     setData([...data, form]);
     setForm({ name: "", email: "" });
   };
+  const handlePress = (e) => {
+    if (e.key == "Enter") {
+      addData();
+    }
+  };
 
   const removeData = (index) => {
     let tempArr = data;
@@ -23,6 +28,7 @@ const Form = () => {
     <div className="form">
       <Stack spacing={2} direction="row">
         <TextField
+          onKeyPress={(e) => handlePress(e)}
           value={form.name}
           onChange={(e) => setForm({ ...form, name: e.target.value })}
           id="outlined-basic"
@@ -30,6 +36,7 @@ const Form = () => {
           variant="outlined"
         />
         <TextField
+          onKeyPress={(e) => handlePress(e)}
           value={form.email}
           onChange={(e) => setForm({ ...form, email: e.target.value })}
           id="outlined-basic"
