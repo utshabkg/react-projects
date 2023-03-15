@@ -5,11 +5,11 @@ export const counterSlice = createSlice({
   initialState: 0,
   reducers: {
     Increment: (state, action) => {
-      return (state += 1);
+      return (state += action.payload);
     },
 
     Decrement: (state, action) => {
-      return (state -= 1);
+      return (state -= action.payload);
     },
   },
 });

@@ -10,8 +10,8 @@ const Counter = () => {
     <div className="main">
       <h1>{curState}</h1>
       <div className="buttons">
-        <button onClick={() => dispatch(Increment())}>++</button>
-        <button onClick={() => dispatch(Decrement())}>--</button>
+        <button onClick={() => dispatch(Increment(10))}>++</button>
+        <button onClick={() => dispatch(Decrement(5))}>--</button>
       </div>
     </div>
   );
