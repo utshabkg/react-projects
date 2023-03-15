@@ -1,0 +1,15 @@
+.main{
+    .buttons{
+        display: flex;
+        justify-content: space-between;
+
+        button{
+            width: 50px;
+            margin: 5px;
+            font-size: larger;
+        }
+    }
+    h1{
+        color: hsl(16, 89%, 44%);
+    }
+}
