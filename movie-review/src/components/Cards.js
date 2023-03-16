@@ -4,6 +4,7 @@ import { Vortex } from "react-loader-spinner";
 import ReactStars from "react-stars";
 import { getDocs } from "firebase/firestore";
 import { moviesRef } from "./firebase/firebase";
+import { Link } from "react-router-dom";
 
 const Cards = () => {
   const [data, setData] = useState([]);
@@ -29,27 +30,29 @@ const Cards = () => {
       ) : (
         data.map((e, i) => {
           return (
-            <div
-              key={i}
-              className="card font-medium shadow-lg p-1 hover:-translate-y-3 cursor-pointer mt-6 transition-all duration-500"
-            >
-              <img className="h-60 md:h-72" src={e.image} />
-              <h1>
-                <span className="text-orange-700">Movie:</span> {e.title}
-              </h1>
-              <h1 className="flex items-center">
-                <span className="text-orange-700 mr-1">Rating:</span>
-                <ReactStars
-                  size={20}
-                  half={true}
-                  value={e.rating}
-                  edit={false}
-                />
-              </h1>
-              <h1>
-                <span className="text-orange-700">Year:</span> {e.year}
-              </h1>
-            </div>
+            <Link to={`/detail/${e.id}`}>
+              <div
+                key={i}
+                className="card font-medium shadow-lg p-1 hover:-translate-y-3 cursor-pointer mt-6 transition-all duration-500"
+              >
+                <img className="h-60 md:h-72" src={e.image} />
+                <h1>
+                  <span className="text-orange-700">Movie:</span> {e.title}
+                </h1>
+                <h1 className="flex items-center">
+                  <span className="text-orange-700 mr-1">Rating:</span>
+                  <ReactStars
+                    size={20}
+                    half={true}
+                    value={e.rating}
+                    edit={false}
+                  />
+                </h1>
+                <h1>
+                  <span className="text-orange-700">Year:</span> {e.year}
+                </h1>
+              </div>
+            </Link>
           );
         })
       )}
