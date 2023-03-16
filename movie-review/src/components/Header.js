@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
-    <div className="text-3xl flex justify-between items-center border-b-2 border-gray-500">
+    <div className="header sticky top-0 z-10 text-3xl flex justify-between items-center border-b-2 border-gray-500">
       <span>
         <span className="text-red-500 font-bold p-3">Film</span> Universe
       </span>
