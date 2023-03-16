@@ -1,7 +1,11 @@
+import Header from "./components/Header";
+import Cards from "./components/Cards";
+
 function App() {
   return (
     <div className="App">
-      <h1 className="text-blue-500 text-lg bg-slate-400 flex">Film World</h1>
+      <Header />
+      <Cards />
     </div>
   );
 }
