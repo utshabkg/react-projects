@@ -98,7 +98,7 @@ const Reviews = ({ id, prevRating, number_of_users }) => {
           {data.map((e, i) => {
             return (
               <div
-                className="p-2 w-full mt-2 header bg-opacity-50 border-b border-gray-500"
+                className="p-2 w-full mt-2 bg-gray-900 bg-opacity-50 border-b border-gray-500"
                 key={i}
               >
                 <div className="flex items-center">
