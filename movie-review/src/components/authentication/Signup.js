@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import { ThreeCircles } from "react-loader-spinner";
 import { Link } from "react-router-dom";
+import {
+  getAuth,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
+} from "firebase/auth";
+import app from "../firebase/firebase";
+import swal from "sweetalert";
+const auth = getAuth(app);
 
 const Signup = () => {
   const [form, setForm] = useState({
@@ -12,7 +20,38 @@ const Signup = () => {
   const [otpSent, setOtpSent] = useState(false);
   const [OTP, setOTP] = useState("");
 
-  
+  const generateRecaptha = () => {
+    window.recaptchaVerifier = new RecaptchaVerifier(
+      "recaptcha-container",
+      {
+        size: "invisible",
+        callback: (response) => {
+        },
+      },
+      auth
+    );
+  };
+
+  const requestOtp = () => {
+    setLoading(true);
+    generateRecaptha();
+    let appVerifier = window.recaptchaVerifier;
+    signInWithPhoneNumber(auth, `+88${form.mobile}`, appVerifier)
+      .then((confirmationResult) => {
+        window.confirmationResult = confirmationResult;
+        swal({
+          text: "OTP Sent",
+          icon: "success",
+          buttons: false,
+          timer: 3000,
+        });
+        setOtpSent(true);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <div className="w-full mt-8 flex flex-col items-center">
@@ -106,8 +145,15 @@ const Signup = () => {
             </div>
           </div>
           <div class="p-2 w-full">
-            <button class="flex mx-auto text-white bg-purple-900 border-0 py-2 px-8 focus:outline-none hover:bg-purple-700 rounded text-lg">
-              {loading ? <ThreeCircles height={25} color="white" /> : "Sign Up"}
+            <button
+              onClick={requestOtp}
+              class="flex mx-auto text-white bg-purple-900 border-0 py-2 px-8 focus:outline-none hover:bg-purple-700 rounded text-lg"
+            >
+              {loading ? (
+                <ThreeCircles height={25} color="white" />
+              ) : (
+                "Request OTP"
+              )}
             </button>
           </div>
         </>
@@ -121,6 +167,7 @@ const Signup = () => {
           </Link>
         </p>
       </div>
+      <div id="recaptcha-container"></div>
     </div>
   );
 };
