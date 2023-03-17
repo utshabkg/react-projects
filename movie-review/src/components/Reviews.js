@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
 import ReactStars from "react-stars";
 import { reviewsRef, db } from "./firebase/firebase";
-import { addDoc, doc, updateDoc } from "firebase/firestore";
+import {
+  addDoc,
+  doc,
+  updateDoc,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
 import { TailSpin, ThreeDots } from "react-loader-spinner";
 import swal from "sweetalert";
 
@@ -10,7 +17,7 @@ const Reviews = ({ id, prevRating, number_of_users }) => {
   const [loading, setLoading] = useState(false);
   const [reviewsLoading, setreviewsLoading] = useState(false);
   const [form, setForm] = useState("");
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
 
   const sendReview = async () => {
     setLoading(true);
@@ -50,9 +57,14 @@ const Reviews = ({ id, prevRating, number_of_users }) => {
   useEffect(() => {
     async function getData() {
       setreviewsLoading(true);
+      let q = query(reviewsRef, where("movieid", "==", id));
+      const querySnapshot = await getDocs(q);
 
-      
-      setreviewsLoading(false)
+      querySnapshot.forEach((doc) => {
+        setData((prev) => [...prev, doc.data()]);
+      });
+
+      setreviewsLoading(false);
     }
     getData();
   }, []);
@@ -82,7 +94,11 @@ const Reviews = ({ id, prevRating, number_of_users }) => {
           <ThreeDots height={10} color="white" />
         </div>
       ) : (
-        <div>Reviews</div>
+        <div>
+          {data.map((e, i) => {
+            return <div key={i}>{e.thought}</div>;
+          })}
+        </div>
       )}
     </div>
   );
