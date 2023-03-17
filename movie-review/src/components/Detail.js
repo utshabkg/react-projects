@@ -5,7 +5,6 @@ import { useParams } from "react-router";
 import { db } from "./firebase/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { Bars } from "react-loader-spinner";
-import Reviews from "./Reviews";
 
 const Detail = () => {
   const { id } = useParams();
