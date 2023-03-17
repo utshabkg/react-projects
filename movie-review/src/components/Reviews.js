@@ -94,9 +94,28 @@ const Reviews = ({ id, prevRating, number_of_users }) => {
           <ThreeDots height={10} color="white" />
         </div>
       ) : (
-        <div>
+        <div className="mt-4">
           {data.map((e, i) => {
-            return <div key={i}>{e.thought}</div>;
+            return (
+              <div
+                className="p-2 w-full mt-2 header bg-opacity-50 border-b border-gray-500"
+                key={i}
+              >
+                <div className="flex items-center">
+                  <p className="text-blue-500">{e.name}</p>
+                  <p className="ml-3 text-xs">
+                    ({new Date(e.timestamp).toLocaleString()})
+                  </p>
+                </div>
+                <ReactStars
+                  size={15}
+                  half={true}
+                  value={e.rating}
+                  edit={false}
+                />
+                <p>{e.thought}</p>
+              </div>
+            );
           })}
         </div>
       )}
