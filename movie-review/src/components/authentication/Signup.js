@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ThreeCircles } from "react-loader-spinner";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   getAuth,
   RecaptchaVerifier,
@@ -8,9 +8,13 @@ import {
 } from "firebase/auth";
 import app from "../firebase/firebase";
 import swal from "sweetalert";
-const auth = getAuth(app);
+import bcrypt from "bcryptjs";
+import { addDoc } from "firebase/firestore";
+import { usersRef } from "../firebase/firebase";
 
+const auth = getAuth(app);
 const Signup = () => {
+  const navigate = useNavigate;
   const [form, setForm] = useState({
     name: "",
     mobile: "",
@@ -25,8 +29,7 @@ const Signup = () => {
       "recaptcha-container",
       {
         size: "invisible",
-        callback: (response) => {
-        },
+        callback: (response) => {},
       },
       auth
     );
@@ -53,6 +56,39 @@ const Signup = () => {
       });
   };
 
+  const verifyOTP = () => {
+    try {
+      setLoading(true);
+      window.confirmationResult.confirm(OTP).then((result) => {
+        uploadData();
+        swal({
+          text: "Sucessfully Registered",
+          icon: "success",
+          buttons: false,
+          timer: 3000,
+        });
+        navigate("/login");
+        setLoading(false);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const uploadData = async () => {
+    try {
+      const salt = bcrypt.genSaltSync(10);
+      var hash = bcrypt.hashSync(form.password, salt);
+      await addDoc(usersRef, {
+        name: form.name,
+        password: hash,
+        mobile: form.mobile,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="w-full mt-8 flex flex-col items-center">
       <h1 className="text-xl font-bold">Create an Account</h1>
@@ -77,7 +113,10 @@ const Signup = () => {
             </div>
           </div>
           <div class="p-2 w-full">
-            <button class="flex mx-auto text-white bg-purple-900 border-0 py-2 px-8 focus:outline-none hover:bg-purple-700 rounded text-lg">
+            <button
+              onClick={verifyOTP}
+              class="flex mx-auto text-white bg-purple-900 border-0 py-2 px-8 focus:outline-none hover:bg-purple-700 rounded text-lg"
+            >
               {loading ? (
                 <ThreeCircles height={25} color="white" />
               ) : (
