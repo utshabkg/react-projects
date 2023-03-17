@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactStars from "react-stars";
-import { reviewsRef } from "./firebase/firebase";
-import { addDoc } from "firebase/firestore";
-import { TailSpin } from "react-loader-spinner";
+import { reviewsRef, db } from "./firebase/firebase";
+import { addDoc, doc, updateDoc } from "firebase/firestore";
+import { TailSpin, ThreeDots } from "react-loader-spinner";
 import swal from "sweetalert";
 
-const Reviews = ({ id }) => {
+const Reviews = ({ id, prevRating, number_of_users }) => {
   const [rating, setRating] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [reviewsLoading, setreviewsLoading] = useState(false);
   const [form, setForm] = useState("");
+  const [data, setData] = useState();
 
   const sendReview = async () => {
     setLoading(true);
@@ -21,6 +23,11 @@ const Reviews = ({ id }) => {
         timestamp: new Date().getTime(),
       });
 
+      const _doc = doc(db, "movies", id);
+      await updateDoc(_doc, {
+        rating: prevRating + rating,
+        number_of_users: number_of_users + 1,
+      });
       swal({
         title: "Review Sent",
         icon: "success",
@@ -39,6 +46,16 @@ const Reviews = ({ id }) => {
     }
     setLoading(false);
   };
+
+  useEffect(() => {
+    async function getData() {
+      setreviewsLoading(true);
+
+      
+      setreviewsLoading(false)
+    }
+    getData();
+  }, []);
 
   return (
     <div className="mt-4 border-t-2 border-blue-900 w-full">
@@ -60,6 +77,13 @@ const Reviews = ({ id }) => {
       >
         {loading ? <TailSpin height={15} color="white" /> : "Share"}
       </button>
+      {reviewsLoading ? (
+        <div className="mt-6 flex justify-center">
+          <ThreeDots height={10} color="white" />
+        </div>
+      ) : (
+        <div>Reviews</div>
+      )}
     </div>
   );
 };
