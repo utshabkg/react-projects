@@ -5,6 +5,7 @@ import { useParams } from "react-router";
 import { db } from "./firebase/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { Bars } from "react-loader-spinner";
+import Reviews from "./Reviews";
 
 const Detail = () => {
   const { id } = useParams();
@@ -42,8 +43,9 @@ const Detail = () => {
             <h1 className="text-3xl font-bold text-gray-400">
               {data.title} <span className="text-xl">({data.year})</span>
             </h1>
-            <p className="mt-3">{data.description}</p>
             <ReactStars size={20} half={true} value={4.5} edit={false} />
+            <p className="mt-3">{data.description}</p>
+            <Reviews id={id} />
           </div>
         </>
       )}
