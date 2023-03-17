@@ -13,10 +13,10 @@ const Login = () => {
     <div className="w-full mt-8 flex flex-col items-center">
       <h1 className="text-xl font-bold">Login</h1>
 
-      <div class="p-2 md:w-1/3">
+      <div class="p-2 w-full md:w-1/3">
         <div class="relative">
-          <label for="link" class="leading-7 text-sm text-gray-600">
-            Mobile No.
+          <label for="link" class="leading-7 text-sm text-gray-400 font-bold">
+            Mobile Number
           </label>
           <input
             type={"number"}
@@ -24,21 +24,22 @@ const Login = () => {
             name="mobile"
             value={form.mobile}
             onChange={(e) => setForm({ ...form, mobile: e.target.value })}
-            class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"
+            class="w-full bg-purple-400 rounded border border-gray-300 focus:bg-purple-600 focus:ring-2 focus:ring-gray-200 text-base outline-none text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"
           ></input>
         </div>
       </div>
-      <div class="p-2 md:w-1/3">
+      <div class="p-2 w-full md:w-1/3">
         <div class="relative">
-          <label for="link" class="leading-7 text-sm text-gray-600">
+          <label for="link" class="leading-7 text-sm text-gray-400 font-bold">
             Password
           </label>
           <input
+            type={"password"}
             id="password"
             name="password"
             value={form.password}
             onChange={(e) => setForm({ ...form, password: e.target.value })}
-            class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"
+            class="w-full bg-purple-400 rounded border border-gray-300 focus:bg-purple-600 focus:ring-2 focus:ring-gray-200 text-base outline-none text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"
           ></input>
         </div>
       </div>
