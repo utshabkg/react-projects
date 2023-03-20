@@ -14,7 +14,7 @@ import { usersRef } from "../firebase/firebase";
 
 const auth = getAuth(app);
 const Signup = () => {
-  const navigate = useNavigate;
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     name: "",
     mobile: "",
