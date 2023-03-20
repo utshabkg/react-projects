@@ -12,10 +12,12 @@ import {
 import { TailSpin, ThreeDots } from "react-loader-spinner";
 import swal from "sweetalert";
 import { Appstate } from "../App";
+import { useNavigate } from "react-router";
 
 const Reviews = ({ id, prevRating, number_of_users }) => {
   const [rating, setRating] = useState(0);
   const useAppstate = useContext(Appstate);
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [reviewsLoading, setreviewsLoading] = useState(false);
   const [form, setForm] = useState("");
@@ -24,27 +26,38 @@ const Reviews = ({ id, prevRating, number_of_users }) => {
   const sendReview = async () => {
     setLoading(true);
     try {
-      await addDoc(reviewsRef, {
-        movieid: id,
-        name: useAppstate.userName,
-        rating: rating,
-        thought: form,
-        timestamp: new Date().getTime(),
-      });
+      if (useAppstate.login) {
+        await addDoc(reviewsRef, {
+          movieid: id,
+          name: useAppstate.userName,
+          rating: rating,
+          thought: form,
+          timestamp: new Date().getTime(),
+        });
 
-      const _doc = doc(db, "movies", id);
-      await updateDoc(_doc, {
-        rating: prevRating + rating,
-        number_of_users: number_of_users + 1,
-      });
-      swal({
-        title: "Review Sent",
-        icon: "success",
-        buttons: false,
-        timer: 2000,
-      });
-      setRating(0);
-      setForm("");
+        const _doc = doc(db, "movies", id);
+        await updateDoc(_doc, {
+          rating: prevRating + rating,
+          number_of_users: number_of_users + 1,
+        });
+        swal({
+          title: "Review Sent",
+          icon: "success",
+          buttons: false,
+          timer: 2000,
+        });
+        setRating(0);
+        setForm("");
+        // navigate(`/detail/${id}`);
+      } else {
+        navigate("/login");
+        swal({
+          title: "Please Login to Review movies.",
+          icon: "info",
+          buttons: false,
+          timer: 5000,
+        });
+      }
     } catch (error) {
       swal({
         title: error.message,
