@@ -74,6 +74,7 @@ const Reviews = ({ id, prevRating, number_of_users }) => {
   useEffect(() => {
     async function getData() {
       setreviewsLoading(true);
+      setData([]);
       let q = query(reviewsRef, where("movieid", "==", id));
       const querySnapshot = await getDocs(q);
 
