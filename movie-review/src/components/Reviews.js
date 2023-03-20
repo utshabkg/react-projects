@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ReactStars from "react-stars";
 import { reviewsRef, db } from "./firebase/firebase";
 import {
@@ -11,9 +11,11 @@ import {
 } from "firebase/firestore";
 import { TailSpin, ThreeDots } from "react-loader-spinner";
 import swal from "sweetalert";
+import { Appstate } from "../App";
 
 const Reviews = ({ id, prevRating, number_of_users }) => {
   const [rating, setRating] = useState(0);
+  const useAppstate = useContext(Appstate);
   const [loading, setLoading] = useState(false);
   const [reviewsLoading, setreviewsLoading] = useState(false);
   const [form, setForm] = useState("");
@@ -24,7 +26,7 @@ const Reviews = ({ id, prevRating, number_of_users }) => {
     try {
       await addDoc(reviewsRef, {
         movieid: id,
-        name: "Hard Coder",
+        name: useAppstate.userName,
         rating: rating,
         thought: form,
         timestamp: new Date().getTime(),
