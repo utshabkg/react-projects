@@ -60,13 +60,13 @@ const Login = () => {
       <h1 className="text-xl font-bold">Login</h1>
       <div class="p-2 w-full md:w-1/3">
         <div class="relative">
-          <label for="message" class="leading-7 text-sm text-gray-300">
+          <label for="mobile" class="leading-7 text-sm text-gray-300">
             Mobile No.
           </label>
           <input
             type={"number"}
-            id="message"
-            name="message"
+            id="mobile"
+            name="mobile"
             value={form.mobile}
             onChange={(e) => setForm({ ...form, mobile: e.target.value })}
             class="w-full bg-purple-400 rounded border border-gray-300 focus:bg-purple-600 focus:ring-2 focus:ring-gray-200 text-base outline-none text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"
@@ -75,7 +75,7 @@ const Login = () => {
       </div>
       <div class="p-2 w-full md:w-1/3">
         <div class="relative">
-          <label for="message" class="leading-7 text-sm text-gray-300">
+          <label for="password" class="leading-7 text-sm text-gray-300">
             Password
           </label>
           <input
