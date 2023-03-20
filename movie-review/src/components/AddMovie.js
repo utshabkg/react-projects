@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { ThreeCircles } from "react-loader-spinner";
 import { addDoc } from "firebase/firestore";
 import { moviesRef } from "./firebase/firebase";
 import swal from "sweetalert";
+import { Appstate } from "../App";
+import { useNavigate } from "react-router";
 
 const AddMovie = () => {
+  const useAppstate = useContext(Appstate);
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     title: "",
     year: "",
@@ -16,19 +20,39 @@ const AddMovie = () => {
 
   const addMovie = async () => {
     setLoading(true);
-    await addDoc(moviesRef, form);
-    swal({
-      title: "Succefully added",
-      icon: "success",
-      buttons: false,
-      timer: 3000,
-    });
-    setForm({
-      title: "",
-      year: "",
-      image: "",
-      description: "",
-    });
+    try {
+      if (useAppstate.login) {
+        await addDoc(moviesRef, form);
+        swal({
+          title: "Succefully added",
+          icon: "success",
+          buttons: false,
+          timer: 3000,
+        });
+        setForm({
+          title: "",
+          year: "",
+          image: "",
+          description: "",
+        });
+        navigate("/");
+      } else {
+        navigate("/login");
+        swal({
+          title: "Please Login to add movies.",
+          icon: "info",
+          buttons: false,
+          timer: 5000,
+        });
+      }
+    } catch (error) {
+      swal({
+        title: error.message,
+        icon: "error",
+        buttons: false,
+        timer: 5000,
+      });
+    }
     setLoading(false);
   };
 
