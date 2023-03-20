@@ -22,6 +22,7 @@ const Reviews = ({ id, prevRating, number_of_users }) => {
   const [reviewsLoading, setreviewsLoading] = useState(false);
   const [form, setForm] = useState("");
   const [data, setData] = useState([]);
+  const [newAdded, setNewAdded] = useState(0);
 
   const sendReview = async () => {
     setLoading(true);
@@ -40,15 +41,16 @@ const Reviews = ({ id, prevRating, number_of_users }) => {
           rating: prevRating + rating,
           number_of_users: number_of_users + 1,
         });
+
+        setRating(0);
+        setForm("");
+        setNewAdded(newAdded + 1);
         swal({
           title: "Review Sent",
           icon: "success",
           buttons: false,
           timer: 2000,
         });
-        setRating(0);
-        setForm("");
-        // navigate(`/detail/${id}`);
       } else {
         navigate("/login");
         swal({
@@ -82,7 +84,7 @@ const Reviews = ({ id, prevRating, number_of_users }) => {
       setreviewsLoading(false);
     }
     getData();
-  }, []);
+  }, [newAdded]);
 
   return (
     <div className="mt-4 border-t-2 border-blue-900 w-full">
